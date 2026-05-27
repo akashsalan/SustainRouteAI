@@ -1,0 +1,134 @@
+{
+  "_meta": {
+    "dataset_id": "recommendation_templates",
+    "version": "1.0.0",
+    "description": "Reusable AI explanation templates consumed by the explanation layer. The explanation layer fills in the variables and never makes optimization decisions itself.",
+    "tone_guidelines": ["intelligent", "human", "professional", "concise"],
+    "variable_syntax": "{{variable_name}}",
+    "max_recommended_length_chars": 220,
+    "last_updated": "2026-05-01"
+  },
+  "transport_recommendations": [
+    {
+      "id": "transport_metro_winner",
+      "trigger": "metro_is_top_ranked",
+      "template": "Taking the metro reduces estimated emissions by {{emission_reduction_percent}}% and costs {{cost_savings}} less than a solo cab, with only {{time_delta}} more travel time.",
+      "variables": ["emission_reduction_percent", "cost_savings", "time_delta"]
+    },
+    {
+      "id": "transport_pool_balanced",
+      "trigger": "pool_cab_is_balanced_winner",
+      "template": "Pooling this ride cuts emissions by roughly {{emission_reduction_percent}}% while staying within {{time_delta}} of your fastest option.",
+      "variables": ["emission_reduction_percent", "time_delta"]
+    },
+    {
+      "id": "transport_active_short_trip",
+      "trigger": "distance_under_3km_active_available",
+      "template": "This trip is under {{distance_km}} km. Walking or cycling avoids emissions entirely and often beats traffic during peak hours.",
+      "variables": ["distance_km"]
+    },
+    {
+      "id": "transport_speed_override",
+      "trigger": "speed_priority_profile_active",
+      "template": "Speed is the priority here, so the fastest option is recommended. The greener alternative would have saved about {{emission_reduction_percent}}% emissions for {{time_delta}} more travel time.",
+      "variables": ["emission_reduction_percent", "time_delta"]
+    }
+  ],
+  "food_delivery_recommendations": [
+    {
+      "id": "food_local_eco",
+      "trigger": "local_eco_kitchen_available",
+      "template": "{{restaurant_name}} is within {{distance_km}} km and uses {{packaging_type}}. Choosing it over the long-distance option cuts delivery emissions by about {{emission_reduction_percent}}%.",
+      "variables": ["restaurant_name", "distance_km", "packaging_type", "emission_reduction_percent"]
+    },
+    {
+      "id": "food_grouped_delivery_nudge",
+      "trigger": "grouped_delivery_window_open",
+      "template": "Group your order with {{nearby_orders_count}} nearby orders in the next {{minutes}} minutes to lower delivery emissions by roughly {{emission_reduction_percent}}%.",
+      "variables": ["nearby_orders_count", "minutes", "emission_reduction_percent"]
+    },
+    {
+      "id": "food_packaging_swap",
+      "trigger": "eco_packaging_alternative_exists",
+      "template": "Switching to {{eco_packaging_type}} for this order reduces single-use plastic by about {{plastic_reduction_grams}} g without changing delivery time.",
+      "variables": ["eco_packaging_type", "plastic_reduction_grams"]
+    },
+    {
+      "id": "food_diet_bonus",
+      "trigger": "vegetarian_or_vegan_alternative_available",
+      "template": "A {{diet_type}} version of {{dish_name}} is available from the same kitchen and lowers the meal's footprint by an estimated {{emission_reduction_percent}}%.",
+      "variables": ["diet_type", "dish_name", "emission_reduction_percent"]
+    }
+  ],
+  "delivery_logistics_recommendations": [
+    {
+      "id": "delivery_consolidate",
+      "trigger": "user_has_multiple_open_orders",
+      "template": "You have {{open_orders_count}} open orders. Consolidating them into one shipment can reduce packaging waste by about {{waste_reduction_percent}}% and emissions by {{emission_reduction_percent}}%.",
+      "variables": ["open_orders_count", "waste_reduction_percent", "emission_reduction_percent"]
+    },
+    {
+      "id": "delivery_slower_window",
+      "trigger": "express_selected_eco_window_available",
+      "template": "Switching from express to a {{eco_window_label}} window allows route batching and saves an estimated {{emission_reduction_percent}}% emissions on this delivery.",
+      "variables": ["eco_window_label", "emission_reduction_percent"]
+    },
+    {
+      "id": "delivery_electric_fleet",
+      "trigger": "electric_fleet_available_for_route",
+      "template": "An electric delivery option is available for this route. It produces about {{co2_reduction_percent}}% less CO2 than the standard fleet at the same price.",
+      "variables": ["co2_reduction_percent"]
+    }
+  ],
+  "tradeoff_explanations": [
+    {
+      "id": "tradeoff_balanced_choice",
+      "trigger": "recommended_is_not_greenest",
+      "template": "The greenest option scores {{green_score}}/100 on sustainability but loses on {{losing_dimension}}. The balanced pick scores {{balanced_score}}/100 overall and stays within your {{constraint_label}}.",
+      "variables": ["green_score", "losing_dimension", "balanced_score", "constraint_label"]
+    },
+    {
+      "id": "tradeoff_minor_sacrifice",
+      "trigger": "small_time_or_cost_delta_for_large_emission_drop",
+      "template": "Accepting {{time_delta}} extra time and {{cost_delta}} lower cost yields a {{emission_reduction_percent}}% drop in emissions. Strong tradeoff on the balanced profile.",
+      "variables": ["time_delta", "cost_delta", "emission_reduction_percent"]
+    },
+    {
+      "id": "tradeoff_no_clear_winner",
+      "trigger": "scores_within_5_points",
+      "template": "The top three options are within {{score_spread}} points of each other. Pick based on what matters most right now: {{dimension_a}}, {{dimension_b}}, or {{dimension_c}}.",
+      "variables": ["score_spread", "dimension_a", "dimension_b", "dimension_c"]
+    }
+  ],
+  "sustainability_nudges": [
+    {
+      "id": "nudge_weekly_streak",
+      "trigger": "user_made_n_eco_choices_this_week",
+      "template": "You've made {{eco_choice_count}} sustainable choices this week, saving an estimated {{co2_saved_kg}} kg of CO2. Keep the streak going.",
+      "variables": ["eco_choice_count", "co2_saved_kg"]
+    },
+    {
+      "id": "nudge_collective_impact",
+      "trigger": "city_simulation_view_open",
+      "template": "If {{user_count}} people in your city made the same choice today, the city would avoid roughly {{co2_saved_tons}} tons of CO2.",
+      "variables": ["user_count", "co2_saved_tons"]
+    },
+    {
+      "id": "nudge_first_time_user",
+      "trigger": "first_session",
+      "template": "SustainRoute compares your options across sustainability, cost, time, and convenience, then recommends the best balance. No tradeoffs forced.",
+      "variables": []
+    },
+    {
+      "id": "nudge_personal_goal",
+      "trigger": "user_set_monthly_goal",
+      "template": "You're {{progress_percent}}% toward your monthly goal of {{goal_value}} {{goal_unit}}. Today's recommendation contributes {{contribution_value}} {{goal_unit}}.",
+      "variables": ["progress_percent", "goal_value", "goal_unit", "contribution_value"]
+    }
+  ],
+  "fallback": {
+    "id": "fallback_generic",
+    "template": "Based on sustainability, cost, time, and convenience, the best balanced option is {{recommended_option}}.",
+    "variables": ["recommended_option"]
+  }
+}

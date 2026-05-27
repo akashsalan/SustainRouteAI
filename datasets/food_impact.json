@@ -1,0 +1,149 @@
+{
+  "_meta": {
+    "dataset_id": "food_impact",
+    "version": "1.0.0",
+    "description": "Heuristic sustainability adjustments for food delivery decisions. Values are additive modifiers applied to a base food sustainability score of 70.",
+    "scoring_model": {
+      "base_score": 70,
+      "min_score": 0,
+      "max_score": 100,
+      "formula": "final = clamp(base_score + sum(applicable_modifiers), 0, 100)"
+    },
+    "last_updated": "2026-05-01"
+  },
+  "packaging": {
+    "plastic_single_use": {
+      "label": "Single-use plastic",
+      "score_modifier": -18,
+      "co2_grams_per_order": 95,
+      "notes": "Highest waste impact. Common with budget delivery."
+    },
+    "mixed_plastic_paper": {
+      "label": "Mixed plastic and paper",
+      "score_modifier": -8,
+      "co2_grams_per_order": 60,
+      "notes": "Default in many cloud kitchens."
+    },
+    "compostable_paper": {
+      "label": "Compostable paper / bagasse",
+      "score_modifier": 8,
+      "co2_grams_per_order": 25,
+      "notes": "Biodegradable, slightly higher cost."
+    },
+    "reusable_container": {
+      "label": "Reusable container",
+      "score_modifier": 14,
+      "co2_grams_per_order": 8,
+      "notes": "Best-in-class. Requires return logistics."
+    }
+  },
+  "sourcing": {
+    "local_under_5km": {
+      "label": "Local restaurant within 5 km",
+      "score_modifier": 12,
+      "notes": "Short delivery radius and likely local supply chain."
+    },
+    "regional_5_to_15km": {
+      "label": "Regional restaurant 5-15 km",
+      "score_modifier": 0,
+      "notes": "Neutral baseline for urban delivery."
+    },
+    "long_distance_over_15km": {
+      "label": "Long distance over 15 km",
+      "score_modifier": -15,
+      "notes": "Heavy delivery overhead per order."
+    }
+  },
+  "delivery_mode": {
+    "grouped_delivery": {
+      "label": "Grouped with other nearby orders",
+      "score_modifier": 10,
+      "notes": "Splits per-order emissions across riders."
+    },
+    "solo_delivery": {
+      "label": "Solo delivery",
+      "score_modifier": 0,
+      "notes": "Default delivery mode."
+    },
+    "express_under_20min": {
+      "label": "Express under 20 min",
+      "score_modifier": -12,
+      "notes": "Forces solo, fast routing. Higher emissions."
+    },
+    "scheduled_off_peak": {
+      "label": "Scheduled off-peak",
+      "score_modifier": 6,
+      "notes": "Enables route batching and lower congestion."
+    }
+  },
+  "diet_bonuses": {
+    "vegetarian": {
+      "label": "Vegetarian meal",
+      "score_modifier": 6,
+      "notes": "Lower upstream agricultural footprint."
+    },
+    "vegan": {
+      "label": "Vegan meal",
+      "score_modifier": 10,
+      "notes": "Lowest upstream footprint among common diets."
+    },
+    "non_vegetarian_red_meat": {
+      "label": "Red meat heavy meal",
+      "score_modifier": -10,
+      "notes": "High agricultural and water footprint."
+    },
+    "non_vegetarian_poultry": {
+      "label": "Poultry / egg meal",
+      "score_modifier": -3,
+      "notes": "Moderate footprint relative to red meat."
+    }
+  },
+  "penalties": {
+    "double_packaging": {
+      "label": "Inner plus outer plastic",
+      "score_modifier": -6
+    },
+    "plastic_cutlery_included": {
+      "label": "Disposable cutlery added",
+      "score_modifier": -4
+    },
+    "ice_pack_or_thermal_bag_disposable": {
+      "label": "Disposable thermal liner",
+      "score_modifier": -5
+    }
+  },
+  "sustainability_tiers": [
+    { "tier": "leader",      "score_range": [85, 100], "label": "Sustainability Leader",   "badge": "leaf_gold"   },
+    { "tier": "advanced",    "score_range": [70, 84],  "label": "Eco-Advanced",            "badge": "leaf_green"  },
+    { "tier": "moderate",    "score_range": [50, 69],  "label": "Moderate Impact",         "badge": "leaf_yellow" },
+    { "tier": "lagging",     "score_range": [30, 49],  "label": "High Impact",             "badge": "leaf_orange" },
+    { "tier": "critical",    "score_range": [0, 29],   "label": "Critical Impact",         "badge": "leaf_red"    }
+  ],
+  "restaurant_categories": {
+    "certified_eco_kitchen": {
+      "default_base_score": 88,
+      "common_traits": ["compostable_paper", "local_under_5km", "vegetarian"],
+      "notes": "Verified low-waste operations."
+    },
+    "local_independent": {
+      "default_base_score": 74,
+      "common_traits": ["mixed_plastic_paper", "local_under_5km"],
+      "notes": "Local sourcing offsets some packaging impact."
+    },
+    "chain_quick_service": {
+      "default_base_score": 55,
+      "common_traits": ["plastic_single_use", "regional_5_to_15km", "non_vegetarian_poultry"],
+      "notes": "Standardized packaging and broader sourcing radius."
+    },
+    "cloud_kitchen": {
+      "default_base_score": 60,
+      "common_traits": ["mixed_plastic_paper", "regional_5_to_15km", "express_under_20min"],
+      "notes": "Optimized for speed, weaker on packaging."
+    },
+    "premium_dine_in_delivery": {
+      "default_base_score": 50,
+      "common_traits": ["double_packaging", "long_distance_over_15km", "non_vegetarian_red_meat"],
+      "notes": "Long delivery radius and heavy packaging typical."
+    }
+  }
+}

@@ -1,0 +1,174 @@
+{
+  "_meta": {
+    "dataset_id": "city_simulation",
+    "version": "1.0.0",
+    "description": "City-level sustainability simulation parameters used by the dashboard's collective impact view. Numbers are heuristic projections that scale with adoption.",
+    "model_assumptions": {
+      "average_trips_per_user_per_day": 2.4,
+      "average_trip_distance_km": 9.5,
+      "average_food_orders_per_user_per_week": 3.1,
+      "average_packages_per_user_per_month": 4.8,
+      "baseline_solo_cab_share": 0.42,
+      "baseline_metro_bus_share": 0.31,
+      "baseline_active_transport_share": 0.12,
+      "baseline_other_share": 0.15
+    },
+    "last_updated": "2026-05-01"
+  },
+  "cities": {
+    "tier_1_metro": {
+      "label": "Tier 1 Metro",
+      "estimated_population": 12500000,
+      "addressable_user_base": 4200000,
+      "scenarios": {
+        "low_adoption": {
+          "estimated_users": 50000,
+          "transport_shift": {
+            "solo_cab_to_pool": 0.18,
+            "solo_cab_to_metro": 0.22,
+            "solo_cab_to_active": 0.06
+          },
+          "monthly_projections": {
+            "co2_reduction_tons": 285,
+            "packaging_waste_reduction_kg": 18500,
+            "grouped_delivery_adoption_percent": 14,
+            "fuel_saved_liters": 96000
+          },
+          "yearly_projections": {
+            "co2_reduction_tons": 3420,
+            "packaging_waste_reduction_kg": 222000,
+            "grouped_delivery_adoption_percent": 18,
+            "fuel_saved_liters": 1152000,
+            "trees_equivalent": 156000
+          }
+        },
+        "medium_adoption": {
+          "estimated_users": 250000,
+          "transport_shift": {
+            "solo_cab_to_pool": 0.22,
+            "solo_cab_to_metro": 0.28,
+            "solo_cab_to_active": 0.09
+          },
+          "monthly_projections": {
+            "co2_reduction_tons": 1620,
+            "packaging_waste_reduction_kg": 102000,
+            "grouped_delivery_adoption_percent": 24,
+            "fuel_saved_liters": 540000
+          },
+          "yearly_projections": {
+            "co2_reduction_tons": 19440,
+            "packaging_waste_reduction_kg": 1224000,
+            "grouped_delivery_adoption_percent": 28,
+            "fuel_saved_liters": 6480000,
+            "trees_equivalent": 882000
+          }
+        },
+        "high_adoption": {
+          "estimated_users": 1000000,
+          "transport_shift": {
+            "solo_cab_to_pool": 0.26,
+            "solo_cab_to_metro": 0.34,
+            "solo_cab_to_active": 0.12
+          },
+          "monthly_projections": {
+            "co2_reduction_tons": 7100,
+            "packaging_waste_reduction_kg": 425000,
+            "grouped_delivery_adoption_percent": 38,
+            "fuel_saved_liters": 2380000
+          },
+          "yearly_projections": {
+            "co2_reduction_tons": 85200,
+            "packaging_waste_reduction_kg": 5100000,
+            "grouped_delivery_adoption_percent": 44,
+            "fuel_saved_liters": 28560000,
+            "trees_equivalent": 3870000
+          }
+        }
+      }
+    },
+    "tier_2_city": {
+      "label": "Tier 2 City",
+      "estimated_population": 3500000,
+      "addressable_user_base": 950000,
+      "scenarios": {
+        "low_adoption": {
+          "estimated_users": 15000,
+          "transport_shift": {
+            "solo_cab_to_pool": 0.16,
+            "solo_cab_to_metro": 0.10,
+            "solo_cab_to_active": 0.08
+          },
+          "monthly_projections": {
+            "co2_reduction_tons": 72,
+            "packaging_waste_reduction_kg": 5200,
+            "grouped_delivery_adoption_percent": 11,
+            "fuel_saved_liters": 24000
+          },
+          "yearly_projections": {
+            "co2_reduction_tons": 864,
+            "packaging_waste_reduction_kg": 62400,
+            "grouped_delivery_adoption_percent": 15,
+            "fuel_saved_liters": 288000,
+            "trees_equivalent": 39200
+          }
+        },
+        "medium_adoption": {
+          "estimated_users": 80000,
+          "transport_shift": {
+            "solo_cab_to_pool": 0.20,
+            "solo_cab_to_metro": 0.14,
+            "solo_cab_to_active": 0.10
+          },
+          "monthly_projections": {
+            "co2_reduction_tons": 410,
+            "packaging_waste_reduction_kg": 28500,
+            "grouped_delivery_adoption_percent": 20,
+            "fuel_saved_liters": 138000
+          },
+          "yearly_projections": {
+            "co2_reduction_tons": 4920,
+            "packaging_waste_reduction_kg": 342000,
+            "grouped_delivery_adoption_percent": 24,
+            "fuel_saved_liters": 1656000,
+            "trees_equivalent": 223000
+          }
+        },
+        "high_adoption": {
+          "estimated_users": 300000,
+          "transport_shift": {
+            "solo_cab_to_pool": 0.24,
+            "solo_cab_to_metro": 0.18,
+            "solo_cab_to_active": 0.13
+          },
+          "monthly_projections": {
+            "co2_reduction_tons": 1750,
+            "packaging_waste_reduction_kg": 118000,
+            "grouped_delivery_adoption_percent": 32,
+            "fuel_saved_liters": 588000
+          },
+          "yearly_projections": {
+            "co2_reduction_tons": 21000,
+            "packaging_waste_reduction_kg": 1416000,
+            "grouped_delivery_adoption_percent": 38,
+            "fuel_saved_liters": 7056000,
+            "trees_equivalent": 954000
+          }
+        }
+      }
+    }
+  },
+  "monthly_trend_template": {
+    "description": "Used by the dashboard for sparkline visualizations. Multipliers applied to a base monthly projection.",
+    "seasonal_multipliers": {
+      "Jan": 0.95, "Feb": 0.97, "Mar": 1.00, "Apr": 1.02, "May": 1.05,
+      "Jun": 1.04, "Jul": 1.03, "Aug": 1.02, "Sep": 1.05, "Oct": 1.08,
+      "Nov": 1.06, "Dec": 0.98
+    }
+  },
+  "kpi_targets": {
+    "co2_reduction_tons_per_year_per_10k_users": 684,
+    "packaging_waste_reduction_kg_per_year_per_10k_users": 44400,
+    "grouped_delivery_adoption_target_percent": 35,
+    "transport_mode_shift_target_percent": 22
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "_meta": {
+    "dataset_id": "delivery_rules",
+    "version": "1.0.0",
+    "description": "Logistics sustainability rules used by the optimization engine to score and rank delivery options.",
+    "scoring_model": {
+      "base_score": 70,
+      "min_score": 0,
+      "max_score": 100,
+      "formula": "final = clamp(base_score + sum(applicable_modifiers), 0, 100)"
+    },
+    "last_updated": "2026-05-01"
+  },
+  "urgency_modifiers": {
+    "same_day_delivery_penalty": {
+      "score_modifier": -16,
+      "co2_multiplier": 1.6,
+      "notes": "Forces solo dispatch and bypasses route batching."
+    },
+    "express_delivery_penalty": {
+      "score_modifier": -10,
+      "co2_multiplier": 1.35,
+      "notes": "Tight SLA reduces consolidation opportunities."
+    },
+    "standard_delivery": {
+      "score_modifier": 0,
+      "co2_multiplier": 1.0,
+      "notes": "Default 2-4 day window."
+    },
+    "scheduled_eco_window": {
+      "score_modifier": 8,
+      "co2_multiplier": 0.85,
+      "notes": "User-selected slow window enabling consolidation."
+    }
+  },
+  "consolidation": {
+    "grouped_shipping_bonus": {
+      "score_modifier": 12,
+      "co2_multiplier": 0.7,
+      "min_orders_required": 2,
+      "notes": "Combine multiple orders into one shipment."
+    },
+    "neighborhood_batch_bonus": {
+      "score_modifier": 8,
+      "co2_multiplier": 0.8,
+      "min_orders_required": 4,
+      "notes": "Batched delivery within a 1 km radius."
+    }
+  },
+  "packaging": {
+    "minimal_packaging_bonus": {
+      "score_modifier": 10,
+      "waste_reduction_percent": 35,
+      "notes": "Right-sized boxes, no plastic fillers."
+    },
+    "recycled_packaging_bonus": {
+      "score_modifier": 7,
+      "waste_reduction_percent": 25
+    },
+    "reusable_tote_bonus": {
+      "score_modifier": 14,
+      "waste_reduction_percent": 60,
+      "notes": "Returnable tote system with deposit."
+    },
+    "excess_packaging_penalty": {
+      "score_modifier": -8,
+      "waste_reduction_percent": -25
+    }
+  },
+  "warehouse_logistics": {
+    "warehouse_distance_penalty": {
+      "applies_when_km_over": 25,
+      "score_modifier_per_10km": -3,
+      "max_penalty": -15,
+      "notes": "Long first-mile from fulfillment center."
+    },
+    "local_micro_fulfillment_bonus": {
+      "applies_when_km_under": 5,
+      "score_modifier": 9,
+      "notes": "Last-mile dispatched from neighborhood hub."
+    }
+  },
+  "fleet": {
+    "electric_delivery_bonus": {
+      "score_modifier": 12,
+      "co2_multiplier": 0.4,
+      "notes": "Electric vehicle or e-bike delivery."
+    },
+    "cargo_bike_bonus": {
+      "score_modifier": 14,
+      "co2_multiplier": 0.15,
+      "notes": "Best for sub-3km dense urban deliveries."
+    },
+    "ice_vehicle_baseline": {
+      "score_modifier": 0,
+      "co2_multiplier": 1.0
+    },
+    "diesel_truck_penalty": {
+      "score_modifier": -10,
+      "co2_multiplier": 1.4
+    }
+  },
+  "delivery_efficiency_tiers": {
+    "platinum": {
+      "score_range": [90, 100],
+      "criteria": {
+        "fleet": ["cargo_bike_bonus", "electric_delivery_bonus"],
+        "consolidation_required": true,
+        "packaging": ["reusable_tote_bonus", "minimal_packaging_bonus"]
+      },
+      "label": "Platinum Eco-Logistics"
+    },
+    "gold": {
+      "score_range": [75, 89],
+      "criteria": {
+        "fleet": ["electric_delivery_bonus"],
+        "consolidation_required": true,
+        "packaging": ["minimal_packaging_bonus", "recycled_packaging_bonus"]
+      },
+      "label": "Gold Eco-Logistics"
+    },
+    "silver": {
+      "score_range": [60, 74],
+      "criteria": {
+        "fleet": ["ice_vehicle_baseline"],
+        "consolidation_required": false,
+        "packaging": ["recycled_packaging_bonus"]
+      },
+      "label": "Silver Eco-Logistics"
+    },
+    "bronze": {
+      "score_range": [40, 59],
+      "criteria": {
+        "fleet": ["ice_vehicle_baseline"],
+        "consolidation_required": false,
+        "packaging": []
+      },
+      "label": "Standard Logistics"
+    },
+    "non_compliant": {
+      "score_range": [0, 39],
+      "criteria": {
+        "fleet": ["diesel_truck_penalty"],
+        "consolidation_required": false,
+        "packaging": ["excess_packaging_penalty"]
+      },
+      "label": "High Impact Logistics"
+    }
+  }
+}

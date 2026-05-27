@@ -1,0 +1,92 @@
+{
+  "_meta": {
+    "dataset_id": "sustainability_weights",
+    "version": "1.0.0",
+    "description": "Weight profiles for the multi-objective optimization engine. Each profile defines how the four scoring dimensions are blended into the final recommendation score.",
+    "formula": "final_score = w_sustainability * sustainability + w_cost * cost + w_time * time + w_convenience * convenience",
+    "constraint": "Sum of weights in every profile must equal 1.0",
+    "default_profile": "balanced",
+    "last_updated": "2026-05-01"
+  },
+  "profiles": {
+    "balanced": {
+      "label": "Balanced",
+      "description": "Default profile aligned with the documented scoring philosophy.",
+      "weights": {
+        "sustainability": 0.40,
+        "cost": 0.30,
+        "time": 0.20,
+        "convenience": 0.10
+      },
+      "use_cases": ["default_user", "general_recommendations", "city_simulation"]
+    },
+    "eco_priority": {
+      "label": "Eco Priority",
+      "description": "Maximizes sustainability while still respecting basic real-world constraints.",
+      "weights": {
+        "sustainability": 0.65,
+        "cost": 0.15,
+        "time": 0.10,
+        "convenience": 0.10
+      },
+      "use_cases": ["climate_conscious_user", "corporate_sustainability_dashboard"]
+    },
+    "budget_priority": {
+      "label": "Budget Priority",
+      "description": "Cost-sensitive users. Sustainability still influences ranking but is secondary.",
+      "weights": {
+        "sustainability": 0.20,
+        "cost": 0.55,
+        "time": 0.15,
+        "convenience": 0.10
+      },
+      "use_cases": ["student_user", "low_income_segment", "budget_traveler"]
+    },
+    "speed_priority": {
+      "label": "Speed Priority",
+      "description": "Urgent decisions where time dominates. Used selectively to avoid greenwashing fast options.",
+      "weights": {
+        "sustainability": 0.15,
+        "cost": 0.15,
+        "time": 0.60,
+        "convenience": 0.10
+      },
+      "use_cases": ["airport_run", "medical_urgency", "deadline_delivery"]
+    },
+    "comfort_priority": {
+      "label": "Comfort Priority",
+      "description": "Convenience-led profile for accessibility-sensitive users.",
+      "weights": {
+        "sustainability": 0.20,
+        "cost": 0.20,
+        "time": 0.20,
+        "convenience": 0.40
+      },
+      "use_cases": ["elderly_user", "mobility_constrained_user", "rainy_weather"]
+    }
+  },
+  "scoring_dimensions": {
+    "sustainability": {
+      "range": [0, 100],
+      "direction": "higher_is_better",
+      "source_datasets": ["transport_emissions", "food_impact", "delivery_rules"]
+    },
+    "cost": {
+      "range": [0, 100],
+      "direction": "higher_is_better",
+      "derivation": "100 - normalized_cost",
+      "notes": "Cost is inverted before weighting so all dimensions are higher-is-better."
+    },
+    "time": {
+      "range": [0, 100],
+      "direction": "higher_is_better",
+      "derivation": "100 - normalized_time",
+      "notes": "Time is inverted before weighting."
+    },
+    "convenience": {
+      "range": [0, 100],
+      "direction": "higher_is_better",
+      "source_datasets": ["transport_emissions"]
+    }
+  }
+}

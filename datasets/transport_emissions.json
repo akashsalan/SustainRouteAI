@@ -1,0 +1,132 @@
+{
+  "_meta": {
+    "dataset_id": "transport_emissions",
+    "version": "1.0.0",
+    "description": "Heuristic sustainability coefficients per transport mode used by the SustainRoute AI scoring engine. Values are tuned for internal consistency and explainability, not scientific carbon accounting.",
+    "units": {
+      "emission_per_km": "grams_co2e_per_passenger_km",
+      "cost_per_km": "INR_per_passenger_km",
+      "convenience_score": "0_to_10_higher_is_more_comfortable",
+      "avg_speed": "km_per_hour_typical_urban",
+      "occupancy_factor": "average_passengers_per_vehicle",
+      "sustainability_rating": "0_to_100_higher_is_greener"
+    },
+    "normalization_reference": {
+      "max_emission_per_km": 200,
+      "max_cost_per_km": 15
+    },
+    "last_updated": "2026-05-01"
+  },
+  "modes": {
+    "solo_cab": {
+      "label": "Solo Cab",
+      "category": "private_motor",
+      "fuel_type": "petrol_diesel",
+      "emission_per_km": 180,
+      "cost_per_km": 12.0,
+      "convenience_score": 9.0,
+      "avg_speed": 30,
+      "occupancy_factor": 1.0,
+      "sustainability_rating": 22,
+      "tier": "high_impact",
+      "notes": "Single-passenger ride-hailing baseline. Highest per-passenger emissions among motorized modes."
+    },
+    "pool_cab": {
+      "label": "Pool Cab",
+      "category": "shared_motor",
+      "fuel_type": "petrol_diesel",
+      "emission_per_km": 72,
+      "cost_per_km": 6.0,
+      "convenience_score": 7.0,
+      "avg_speed": 26,
+      "occupancy_factor": 2.5,
+      "sustainability_rating": 58,
+      "tier": "medium_impact",
+      "notes": "Emissions divided across shared riders. Good balance between comfort and sustainability."
+    },
+    "metro": {
+      "label": "Metro",
+      "category": "rail_transit",
+      "fuel_type": "electric",
+      "emission_per_km": 30,
+      "cost_per_km": 2.5,
+      "convenience_score": 8.0,
+      "avg_speed": 35,
+      "occupancy_factor": 120,
+      "sustainability_rating": 92,
+      "tier": "low_impact",
+      "notes": "High occupancy electric rail. Best balance for urban commuting."
+    },
+    "bus": {
+      "label": "Public Bus",
+      "category": "road_transit",
+      "fuel_type": "diesel_cng_mixed",
+      "emission_per_km": 50,
+      "cost_per_km": 1.5,
+      "convenience_score": 6.0,
+      "avg_speed": 22,
+      "occupancy_factor": 35,
+      "sustainability_rating": 80,
+      "tier": "low_impact",
+      "notes": "High occupancy lowers per-passenger footprint. Slower than metro in dense urban traffic."
+    },
+    "bike": {
+      "label": "Bicycle",
+      "category": "active_transport",
+      "fuel_type": "human_powered",
+      "emission_per_km": 0,
+      "cost_per_km": 0.3,
+      "convenience_score": 5.0,
+      "avg_speed": 16,
+      "occupancy_factor": 1.0,
+      "sustainability_rating": 98,
+      "tier": "minimal_impact",
+      "notes": "Zero direct emissions. Constrained by distance, weather, and rider fitness."
+    },
+    "walk": {
+      "label": "Walking",
+      "category": "active_transport",
+      "fuel_type": "human_powered",
+      "emission_per_km": 0,
+      "cost_per_km": 0.0,
+      "convenience_score": 3.0,
+      "avg_speed": 5,
+      "occupancy_factor": 1.0,
+      "sustainability_rating": 100,
+      "tier": "minimal_impact",
+      "notes": "Optimal for sub-2km trips. Highest sustainability rating, lowest convenience for long distances."
+    },
+    "electric_scooter": {
+      "label": "Electric Scooter",
+      "category": "micro_mobility",
+      "fuel_type": "electric",
+      "emission_per_km": 15,
+      "cost_per_km": 3.0,
+      "convenience_score": 7.0,
+      "avg_speed": 24,
+      "occupancy_factor": 1.0,
+      "sustainability_rating": 88,
+      "tier": "low_impact",
+      "notes": "Battery footprint amortized across lifecycle. Strong urban last-mile option."
+    },
+    "train": {
+      "label": "Suburban Train",
+      "category": "rail_transit",
+      "fuel_type": "electric_mixed",
+      "emission_per_km": 25,
+      "cost_per_km": 1.2,
+      "convenience_score": 7.0,
+      "avg_speed": 55,
+      "occupancy_factor": 250,
+      "sustainability_rating": 94,
+      "tier": "minimal_impact",
+      "notes": "Best for medium-to-long intercity and suburban commuting."
+    }
+  },
+  "tier_definitions": {
+    "minimal_impact": { "rating_range": [90, 100], "color": "#0f9d58" },
+    "low_impact":     { "rating_range": [70, 89],  "color": "#34a853" },
+    "medium_impact":  { "rating_range": [40, 69],  "color": "#fbbc05" },
+    "high_impact":    { "rating_range": [0, 39],   "color": "#ea4335" }
+  }
+}
